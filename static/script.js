@@ -26,6 +26,7 @@ async function loadFile(fileName) {
     removeChildren(tableSection);
 
     const path = `/api/table/${fileName}`;
+    console.log(`path: ${path}`);
     const resp = await fetch(path);
 
     if (!resp.ok) {

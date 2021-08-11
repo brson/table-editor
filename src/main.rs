@@ -8,19 +8,20 @@ use rocket::response::{self, Responder};
 use rocket::http::Status;
 use rocket::Request;
 use rocket::serde::json::Json;
+use std::path::PathBuf;
 
 #[get("/")]
 fn index() -> Template {
     Template::render("index", json!({}))
 }
 
-#[get("/<_name>")]
-fn csv_file(_name: &str) -> Template {
+#[get("/<_name..>", rank = 100)]
+fn csv_file(_name: PathBuf) -> Template {
     Template::render("index", json!({}))
 }
 
-#[get("/api/table/<name>")]
-fn get_table(name: &str) -> Result<Json<Table>> {
+#[get("/api/table/<name..>")]
+fn get_table(name: PathBuf) -> Result<Json<Table>> {
     use std::fs::File;
 
     let file = File::open(name)?;
