@@ -12,9 +12,9 @@ fn index() -> Template {
     Template::render("index", json!({}))
 }
 
-#[get("/<name>")]
-fn csv_file(name: &str) -> Result<()> {
-    todo!()
+#[get("/<_name>")]
+fn csv_file(_name: &str) -> Template {
+    Template::render("index", json!({}))
 }
 
 type Result<T> = std::result::Result<T, Error>;
