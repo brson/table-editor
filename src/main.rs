@@ -37,14 +37,22 @@ fn get_table(name: PathBuf) -> Result<Json<Table>> {
         rows.push(values);
     }
 
+    let headers = rdr.headers()?;
+    let headers = headers.into_iter()
+        .map(ToString::to_string)
+        .map(|title| Column { title })
+        .collect();
+
     Ok(Json(Table {
         rows,
+        headers,
     }))
 }
 
 #[derive(Serialize, Deserialize)]
 struct Table {
     rows: Vec<Vec<String>>,
+    headers: Vec<Column>,
 }
 
 #[derive(Serialize, Deserialize)]

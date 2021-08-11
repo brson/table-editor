@@ -38,7 +38,8 @@ async function loadFile(fileName) {
     const json = await resp.json();
 
     jspreadsheet(tableSection, {
-        data: json.rows
+        data: json.rows,
+        columns: json.headers
     });
 }
 
