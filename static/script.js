@@ -1,3 +1,5 @@
+console.assert(jspreadsheet);
+
 const tableSection = document.getElementById("table-section");
 console.assert(tableSection);
 
@@ -21,7 +23,17 @@ async function run() {
 async function loadFile(fileName) {
     console.log(`load file ${fileName}`);
 
-    
+    removeChildren(tableSection);
+
+    jspreadsheet(tableSection, {
+        data: [["a", "b"], ["c", "d"]]
+    });
+}
+
+function removeChildren(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild)
+  }
 }
 
 await run();
