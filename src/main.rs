@@ -1,11 +1,13 @@
 #[macro_use] extern crate rocket;
 
+use serde::{Serialize, Deserialize};
 use serde_json::json;
 use rocket::fs::FileServer;
 use rocket_dyn_templates::Template;
 use rocket::response::{self, Responder};
 use rocket::http::Status;
 use rocket::Request;
+use rocket::serde::json::Json;
 
 #[get("/")]
 fn index() -> Template {
@@ -15,6 +17,22 @@ fn index() -> Template {
 #[get("/<_name>")]
 fn csv_file(_name: &str) -> Template {
     Template::render("index", json!({}))
+}
+
+#[get("/api/table/<name>")]
+fn get_table(name: &str) -> Result<Json<Table>> {
+    panic!()
+}
+
+#[derive(Serialize, Deserialize)]
+struct Table {
+    headers: Vec<String>,
+    rows: Vec<Row>,
+}
+
+#[derive(Serialize, Deserialize)]
+struct Row {
+    data: Vec<String>,
 }
 
 type Result<T> = std::result::Result<T, Error>;
@@ -34,7 +52,8 @@ fn rocket() -> _ {
     rocket::build()
         .mount("/", routes![
             index,
-            csv_file
+            csv_file,
+            get_table,
         ])
         .mount("/static", FileServer::from("static"))
         .attach(Template::fairing())
