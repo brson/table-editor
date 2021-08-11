@@ -1,5 +1,6 @@
-<div id="table-menu">
+<div class="button-menu">
   <button id="save-button">save</button>
+  <button id="reload-button">reload</button>
 </div>
 
 <div id="table">

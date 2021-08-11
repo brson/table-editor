@@ -68,3 +68,25 @@ caption {
 
 /* ... */
 
+:root {
+    --pad: 0.5em;
+}
+
+main {
+    padding: var(--pad);
+}
+
+.button-menu {
+    flex-direction: row;
+}
+
+button {
+    display: inline;
+    border: 1px solid black;
+    padding: var(--pad);
+    margin: var(--pad);
+}
+
+#table {
+    padding: var(--pad);
+}
