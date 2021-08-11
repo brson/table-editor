@@ -25,6 +25,43 @@ head {
     display: none;
 }
 
+table {
+    display: table;
+}
+
+thead {
+    display: table-header-group;
+}
+
+tbody {
+    display: table-row-group;
+}
+
+tfoot {
+    display: table-footer-group;
+}
+
+tr {
+    display: table-row;
+}
+
+td {
+    display: table-cell;
+}
+
+colgroup {
+    display: table-column-group;
+}
+
+col {
+    display: table-column;
+}
+
+caption {
+    display: table-caption;
+}
+
+
 
 /* ... */
 
