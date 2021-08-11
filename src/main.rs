@@ -21,7 +21,19 @@ fn csv_file(_name: &str) -> Template {
 
 #[get("/api/table/<name>")]
 fn get_table(name: &str) -> Result<Json<Table>> {
-    panic!()
+    use std::fs::File;
+
+    let file = File::open(name).unwrap();
+    let mut rdr = csv::Reader::from_reader(file);
+    let mut rows = vec![];
+
+    for record in rdr.records() {
+        let record = record.unwrap();
+        let values: Vec<_> = record.into_iter().map(ToString::to_string).collect();
+        rows.push(values);
+    }
+
+    todo!()
 }
 
 #[derive(Serialize, Deserialize)]
