@@ -1,5 +1,5 @@
 <div id="table-menu">
-  <button id="save">save</button>
+  <button id="save-button">save</button>
 </div>
 
 <div id="table">
