@@ -37,7 +37,9 @@ async function loadFile(fileName) {
 
     const json = await resp.json();
 
-    jspreadsheet(tableSection, json);
+    jspreadsheet(tableSection, {
+        data: json.rows
+    });
 }
 
 function removeChildren(element) {
