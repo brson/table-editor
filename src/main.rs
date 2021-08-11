@@ -26,13 +26,13 @@ fn get_table(name: &str) -> Result<Json<Table>> {
 
 #[derive(Serialize, Deserialize)]
 struct Table {
-    headers: Vec<String>,
-    rows: Vec<Row>,
+    headers: Vec<Column>,
+    rows: Vec<Vec<String>>,
 }
 
 #[derive(Serialize, Deserialize)]
-struct Row {
-    data: Vec<String>,
+struct Column {
+    title: String,
 }
 
 type Result<T> = std::result::Result<T, Error>;
