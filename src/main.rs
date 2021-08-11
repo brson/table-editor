@@ -22,7 +22,7 @@ fn csv_file(_name: PathBuf) -> Template {
 }
 
 #[get("/api/table/<name..>")]
-fn get_table(name: PathBuf) -> Result<Json<Table>> {
+fn load_table(name: PathBuf) -> Result<Json<Table>> {
     let prefix = std::env::var("DATA_ROOT").unwrap_or_else(|_| "./".to_string());
     let name = PathBuf::from(prefix).join(name);
 
@@ -47,6 +47,11 @@ fn get_table(name: PathBuf) -> Result<Json<Table>> {
         headers,
         rows,
     }))
+}
+
+#[post("/api/table/<name..>", data = "<table>")]
+fn save_table(name: PathBuf, table: Json<Table>) -> Result<Json<()>> {
+    panic!()
 }
 
 #[derive(Serialize, Deserialize)]
@@ -85,7 +90,8 @@ fn rocket() -> _ {
         .mount("/", routes![
             index,
             csv_file,
-            get_table,
+            load_table,
+            save_table,
         ])
         .mount("/static", FileServer::from("static"))
         .attach(Template::fairing())
