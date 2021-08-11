@@ -24,6 +24,9 @@ fn csv_file(_name: PathBuf) -> Template {
 fn get_table(name: PathBuf) -> Result<Json<Table>> {
     use std::fs::File;
 
+    let prefix = std::env::var("DATA_ROOT").unwrap_or_else(|_| "./".to_string());
+    let name = PathBuf::from(prefix).join(name);
+
     let file = File::open(name)?;
     let mut rdr = csv::Reader::from_reader(file);
     let mut rows = vec![];
