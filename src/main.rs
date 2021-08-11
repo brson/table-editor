@@ -23,22 +23,23 @@ fn csv_file(_name: &str) -> Template {
 fn get_table(name: &str) -> Result<Json<Table>> {
     use std::fs::File;
 
-    let file = File::open(name).unwrap();
+    let file = File::open(name)?;
     let mut rdr = csv::Reader::from_reader(file);
     let mut rows = vec![];
 
     for record in rdr.records() {
-        let record = record.unwrap();
+        let record = record?;
         let values: Vec<_> = record.into_iter().map(ToString::to_string).collect();
         rows.push(values);
     }
 
-    todo!()
+    Ok(Json(Table {
+        rows,
+    }))
 }
 
 #[derive(Serialize, Deserialize)]
 struct Table {
-    headers: Vec<Column>,
     rows: Vec<Vec<String>>,
 }
 
@@ -51,11 +52,18 @@ type Result<T> = std::result::Result<T, Error>;
 
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
+    #[error("I/O error")]
+    Io(#[from] std::io::Error),
+    #[error("CSV error")]
+    Csv(#[from] csv::Error),
 }
 
 impl<'r> Responder<'r, 'static> for Error {
-    fn respond_to(self, _: &'r Request<'_>) -> response::Result<'static> {
-        Err(Status::InternalServerError)
+    fn respond_to(self, req: &'r Request<'_>) -> response::Result<'static> {
+        match self {
+            Error::Io(e) => e.respond_to(req),
+            _ => Err(Status::InternalServerError),
+        }
     }
 }
 

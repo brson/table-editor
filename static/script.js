@@ -25,9 +25,18 @@ async function loadFile(fileName) {
 
     removeChildren(tableSection);
 
-    jspreadsheet(tableSection, {
-        data: [["a", "b"], ["c", "d"]]
-    });
+    const path = `/api/table/${fileName}`;
+    const resp = await fetch(path);
+
+    if (!resp.ok) {
+        console.log("error loading file");
+        console.log(resp);
+        return;
+    }
+
+    const json = await resp.json();
+
+    jspreadsheet(tableSection, json);
 }
 
 function removeChildren(element) {
