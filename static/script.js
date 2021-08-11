@@ -1,7 +1,6 @@
 console.assert(jspreadsheet);
 
-const tableSection = document.getElementById("table-section");
-console.assert(tableSection);
+const tableElement = document.getElementById("table");
 
 function documentNameFromPageUrl() {
     const url = new URL(document.URL);
@@ -23,7 +22,7 @@ async function run() {
 async function loadFile(fileName) {
     console.log(`load file ${fileName}`);
 
-    removeChildren(tableSection);
+    removeChildren(tableElement);
 
     const path = `/api/table/${fileName}`;
     console.log(`path: ${path}`);
@@ -37,7 +36,7 @@ async function loadFile(fileName) {
 
     const json = await resp.json();
 
-    jspreadsheet(tableSection, {
+    jspreadsheet(tableElement, {
         data: json.rows,
         columns: json.headers
     });

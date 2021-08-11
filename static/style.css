@@ -25,6 +25,9 @@ head {
     display: none;
 }
 
+
+/* table compatibility */
+
 table {
     display: table;
 }

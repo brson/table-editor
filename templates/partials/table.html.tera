@@ -1,6 +1,6 @@
-<table>
-  <th>
-  </th>
-  <tr>
-  </tr>
-</table>
+<div id="table-menu">
+  <button id="save">save</button>
+</div>
+
+<div id="table">
+</div>

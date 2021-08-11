@@ -28,6 +28,13 @@ fn get_table(name: PathBuf) -> Result<Json<Table>> {
 
     let file = File::open(name)?;
     let mut rdr = csv::Reader::from_reader(file);
+
+    let headers = rdr.headers()?;
+    let headers = headers.into_iter()
+        .map(ToString::to_string)
+        .map(|title| Column { title })
+        .collect();
+
     let mut rows = vec![];
 
     for record in rdr.records() {
@@ -36,22 +43,16 @@ fn get_table(name: PathBuf) -> Result<Json<Table>> {
         rows.push(values);
     }
 
-    let headers = rdr.headers()?;
-    let headers = headers.into_iter()
-        .map(ToString::to_string)
-        .map(|title| Column { title })
-        .collect();
-
     Ok(Json(Table {
-        rows,
         headers,
+        rows,
     }))
 }
 
 #[derive(Serialize, Deserialize)]
 struct Table {
-    rows: Vec<Vec<String>>,
     headers: Vec<Column>,
+    rows: Vec<Vec<String>>,
 }
 
 #[derive(Serialize, Deserialize)]
